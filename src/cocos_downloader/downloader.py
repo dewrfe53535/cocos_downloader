@@ -8,7 +8,7 @@ import chompjs
 import json
 from tenacity import retry, stop_after_attempt, wait_fixed
 from urllib.parse import urlparse
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import Future, ThreadPoolExecutor
 from loguru import logger
 
 
@@ -163,8 +163,18 @@ class assetDownloader:
 
     def MTdownloadAndSetimport(self, mj: ManifestJson, downloadDict: dict, useLocal=True):
         with ThreadPoolExecutor(max_workers=self.config['downloader_threadnum']) as executor:
+            futures = []
             for point, url in downloadDict.items():
-                executor.submit(self.downloadAndSetImport, mj, url, point, useLocal)
+                future = executor.submit(self.downloadAndSetImport, mj, url, point, useLocal)
+                futures.append((future, point, url))
+            for future, point, url in futures:
+                exception = future.exception()
+                if exception is not None:
+                    print(f"下载任务失败 - Point: {point}, URL: {url}")
+                    print(f"异常: {exception}")
+                    import traceback
+                    traceback.print_exception(type(exception), exception, exception.__traceback__)
+
 
     def MTdownloadAllNative(self, mj: ManifestJson, overwrite=False):
         with ThreadPoolExecutor(max_workers=self.config['downloader_threadnum']) as executor:

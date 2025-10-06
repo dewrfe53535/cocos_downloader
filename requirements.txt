@@ -1,0 +1,6 @@
+aria2p
+chompjs
+config
+loguru
+Requests
+tenacity

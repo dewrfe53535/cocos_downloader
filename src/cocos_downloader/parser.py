@@ -208,7 +208,7 @@ class ManifestJson:
                     except ValueError:
                         i = self._getDebugResourceLocation(i)
                     isRef = False    
-                    if isinstance(ext[0],list):
+                    if ext and isinstance(ext[0],list):
                         isRef = True
                     if self.assetList[i].nativeVersion or isRef:
                         tmpext = ext.pop()
@@ -216,7 +216,7 @@ class ManifestJson:
                             self.assetList[i].reference = tmpext
                         else:
                             self.assetList[i].nativeExt = tmpext
-                        if len(self.assetList[i].nativeExt) > 10:
+                        if len(self.assetList[i].nativeExt) > 16:
                             logger.warning(f'{i}-{point}-{self.assetList[i].uuid}-{self.assetList[i].nativeVersion} extension name is too long and may wrong')
                             self.assetList[i].nativeExt = ''
                         self.assetList[i].importType = 'PACK'

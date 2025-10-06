@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cocos-downloader"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "dewrfe53535", email = "dewrfe53535@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    "aria2p",
+    "chompjs",
+    "config",
+    "loguru",
+    "requests", 
+    "tenacity",
+]
+
+[project.urls]
+Documentation = "https://github.com/dewrfe53535/cocos-downloader#readme"
+Issues = "https://github.com/dewrfe53535/cocos-downloader/issues"
+Source = "https://github.com/dewrfe53535/cocos-downloader"
+
+[tool.hatch.version]
+path = "src/cocos_downloader/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/cocos_downloader tests}"
+
+[tool.coverage.run]
+source_pkgs = ["cocos_downloader"]
+branch = true
+parallel = true
+omit = [
+  "src/cocos_downloader/__about__.py",
+]
+
+[tool.coverage.paths]
+cocos_downloader = ["src/cocos_downloader", "*/cocos-downloader/src/cocos_downloader"]
+
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
